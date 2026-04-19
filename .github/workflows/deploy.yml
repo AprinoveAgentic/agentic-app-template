@@ -1,0 +1,82 @@
+name: Deploy to QA
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write   # Required for OIDC token exchange
+  contents: read
+
+jobs:
+  deploy:
+    name: Build, push, deploy
+    runs-on: ubuntu-latest
+    environment: qa
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: eu-west-1
+
+      - name: Log in to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # ── API image ────────────────────────────────────────────────────────────
+
+      - name: Build and push API image
+        env:
+          REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          REPO: ${{ vars.ECR_REPO_API }}
+          TAG: ${{ github.sha }}
+        run: |
+          docker build --target prod -t "$REGISTRY/$REPO:$TAG" -t "$REGISTRY/$REPO:latest" apps/api
+          docker push "$REGISTRY/$REPO:$TAG"
+          docker push "$REGISTRY/$REPO:latest"
+
+      # ── Web image ────────────────────────────────────────────────────────────
+
+      - name: Build and push Web image
+        env:
+          REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+          REPO: ${{ vars.ECR_REPO_WEB }}
+          TAG: ${{ github.sha }}
+        run: |
+          docker build --target prod -t "$REGISTRY/$REPO:$TAG" -t "$REGISTRY/$REPO:latest" apps/web
+          docker push "$REGISTRY/$REPO:$TAG"
+          docker push "$REGISTRY/$REPO:latest"
+
+      # ── ECS rolling update ───────────────────────────────────────────────────
+
+      - name: Update ECS API service
+        run: |
+          aws ecs update-service \
+            --cluster "${{ vars.ECS_CLUSTER }}" \
+            --service "${{ vars.ECS_SERVICE_API }}" \
+            --force-new-deployment \
+            --no-cli-pager
+
+      - name: Update ECS Web service
+        run: |
+          aws ecs update-service \
+            --cluster "${{ vars.ECS_CLUSTER }}" \
+            --service "${{ vars.ECS_SERVICE_WEB }}" \
+            --force-new-deployment \
+            --no-cli-pager
+
+      - name: Wait for API service stability
+        run: |
+          aws ecs wait services-stable \
+            --cluster "${{ vars.ECS_CLUSTER }}" \
+            --services "${{ vars.ECS_SERVICE_API }}"
+
+      - name: Wait for Web service stability
+        run: |
+          aws ecs wait services-stable \
+            --cluster "${{ vars.ECS_CLUSTER }}" \
+            --services "${{ vars.ECS_SERVICE_WEB }}"
