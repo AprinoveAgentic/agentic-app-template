@@ -1,4 +1,9 @@
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Do not block the production build on type errors — CI handles that.
+    // Type errors are reported but output is still emitted.
+    "noEmitOnError": false
+  },
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }
