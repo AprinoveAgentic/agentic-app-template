@@ -1,0 +1,35 @@
+{
+  "name": "agentic-app-template",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "docker compose up --build --remove-orphans",
+    "dev:bg": "docker compose up --build --remove-orphans -d",
+    "stop": "docker compose down",
+    "logs": "docker compose logs -f",
+    "logs:api": "docker compose logs -f api",
+    "logs:web": "docker compose logs -f web",
+    "build": "pnpm --filter './packages/*' build && pnpm --filter './apps/*' build",
+    "test": "pnpm --recursive test",
+    "lint": "pnpm --recursive lint",
+    "lint:fix": "pnpm --recursive lint:fix",
+    "type-check": "pnpm --recursive type-check",
+    "check": "pnpm lint && pnpm format:check && pnpm type-check",
+    "clean": "pnpm --recursive clean && rimraf node_modules",
+    "migrate": "pnpm --filter api migrate",
+    "migrate:create": "pnpm --filter api migrate:create",
+    "migrate:down": "pnpm --filter api migrate:down",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md,yaml,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,json,md,yaml,yml}\""
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.0"
+  }
+}

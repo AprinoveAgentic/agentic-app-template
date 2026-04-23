@@ -1,0 +1,38 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rimraf .next dist"
+  },
+  "dependencies": {
+    "js-cookie": "^3.0.5",
+    "next": "^15.5.15",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
+    "@types/node": "^20.12.5",
+    "@types/react": "^18.2.74",
+    "@types/react-dom": "^18.2.24",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/coverage-v8": "^3.0.0",
+    "autoprefixer": "^10",
+    "eslint-config-next": "^14.2.2",
+    "postcss": "^8",
+    "rimraf": "^5.0.5",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.4.0",
+    "vitest": "^3.0.0"
+  }
+}
