@@ -44,8 +44,8 @@ jobs:
           target: production
           push: true
           tags: |
-            ${{ vars.ECR_REPO_API }}:${{ steps.meta.outputs.tag }}
-            ${{ vars.ECR_REPO_API }}:latest
+            ${{ vars.ECR_REGISTRY }}/${{ vars.ECR_REPO_API }}:${{ steps.meta.outputs.tag }}
+            ${{ vars.ECR_REGISTRY }}/${{ vars.ECR_REPO_API }}:latest
 
       - name: Build & push Web image
         uses: docker/build-push-action@v5
@@ -55,8 +55,8 @@ jobs:
           target: production
           push: true
           tags: |
-            ${{ vars.ECR_REPO_WEB }}:${{ steps.meta.outputs.tag }}
-            ${{ vars.ECR_REPO_WEB }}:latest
+            ${{ vars.ECR_REGISTRY }}/${{ vars.ECR_REPO_WEB }}:${{ steps.meta.outputs.tag }}
+            ${{ vars.ECR_REGISTRY }}/${{ vars.ECR_REPO_WEB }}:latest
 
   deploy:
     name: Deploy to ECS
