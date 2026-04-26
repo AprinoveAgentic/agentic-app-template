@@ -14,11 +14,12 @@
     "clean": "rimraf .next dist"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "js-cookie": "^3.0.5",
     "next": "^15.5.15",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "shared": "workspace:*"
+    "@app/shared": "workspace:*"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",

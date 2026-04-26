@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import Cookies from "js-cookie";
-import { auth, type AuthResponse, ApiClientError } from "@/lib/api.js";
+import { auth, type AuthResponse, ApiClientError } from "@/lib/api";
 
 interface User {
   id: string;
