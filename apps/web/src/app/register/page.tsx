@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useAuth } from "@/context/auth.js";
-import { Button } from "@/components/ui/Button.js";
-import { Input } from "@/components/ui/Input.js";
-import { ApiClientError } from "@/lib/api.js";
+import { useAuth } from "@/context/auth";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { ApiClientError } from "@/lib/api";
 
 export default function RegisterPage() {
   const { register } = useAuth();

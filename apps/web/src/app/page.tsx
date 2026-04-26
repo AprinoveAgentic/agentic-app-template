@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useAuth } from "@/context/auth.js";
+import { useAuth } from "@/context/auth";
 
 export default function HomePage() {
   const { user, isLoading, logout } = useAuth();
