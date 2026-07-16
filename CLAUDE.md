@@ -10,11 +10,11 @@
 
 ```bash
 pnpm install             # install all workspace deps
-pnpm dev                 # start api + web in watch mode (or use docker-compose up)
+pnpm dev                 # start db + api + web via docker compose
 pnpm lint                # eslint across workspace
-pnpm typecheck           # tsc --noEmit across workspace
+pnpm type-check          # tsc --noEmit across workspace
 pnpm test                # vitest across workspace
-pnpm --filter api db:migrate  # run pending migrations
+pnpm migrate             # run pending migrations
 ```
 
 ## Architecture rules
